@@ -3,13 +3,14 @@
 var mongoose = require('mongoose');
 
 // Setup schema
-var itemSchema = mongoose.Schema({
-    payload: [{type: String}]
+var autocompleteSchema = mongoose.Schema({
+    label: String,
+    value: String
 });
 
 // Export Contact model
-var item = module.exports = mongoose.model('Autocomplete', itemSchema, "Autocomplete");
+var autocomplete = module.exports = mongoose.model('Autocomplete', autocompleteSchema, "Autocomplete");
 
 module.exports.get = function (callback, limit) {
-    item.find(callback).limit(limit);
+    autocomplete.find(callback).limit(limit);
 }

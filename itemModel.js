@@ -13,7 +13,8 @@ var itemSchema = mongoose.Schema({
     bind: String,
     trade_category_sub: String,
     trade_category: String,
-    sell_price: Number
+    sell_price: Number,
+    description: String
 });
 
 // Export Contact model

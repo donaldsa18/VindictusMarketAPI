@@ -1,11 +1,11 @@
 // contactController.js
 
 // Import contact model
-Item = require('./itemModel');
+PriceHistory = require('./priceHistoryModel');
 
 // Handle index actions
 exports.index = function (req, res) {
-    Item.get(function (err, items) {
+    PriceHistory.get(function (err, items) {
         if (err) {
             res.json({
                 status: "error",
@@ -18,15 +18,16 @@ exports.index = function (req, res) {
         });
     });
 };
-
+//{"ItemName":req.params.item}
+//
 // Handle view contact info
 exports.view = function (req, res) {
-    Item.findOne({"item_class":req.params.item}, function (err, items) {
+    PriceHistory.find({"ItemName":req.params.item}, function (err, items) {
         if (err)
             res.send(err);
         res.json({
             message: 'success',
             data: items
         });
-    });
+    }).sort({"Listed":1});
 };

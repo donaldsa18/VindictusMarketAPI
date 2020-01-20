@@ -7,22 +7,54 @@ let router = require('express').Router();
 router.get('/', function (req, res) {
     res.json({
         status: 'API Its Working',
-        message: 'Welcome to RESTHub crafted with love!',
+        message: 'Welcome to API crafted with love!',
     });
 });
 
 // Import contact controller
 var itemController = require('./itemController');
-
-// Contact routes
 router.route('/items')
-    .get(itemController.index)
+    .get(itemController.index);
 
 router.route('/items/:item')
-    .get(itemController.view)
+    .get(itemController.view);
+
+var itemnamesController = require('./itemnameController');
+    router.route('/itemnames/')
+        .get(itemnamesController.index);
+    
+    router.route('/itemnames/:itemname')
+        .get(itemnamesController.view);
+
 
 var autocompleteController = require('./autocompleteController');
 router.route('/autocomplete')
-    .get(autocompleteController.index)
+    .get(autocompleteController.index);
+
+router.route('/autocomplete/:text')
+    .get(autocompleteController.search);
+
+var tradeController = require('./tradeController');
+router.route('/trades')
+    .get(tradeController.index);
+
+router.route('/trades/:item')
+    .get(tradeController.view);
+
+var tradenameController = require('./tradenameController');
+    router.route('/tradenames')
+        .get(tradenameController.index);
+    
+    router.route('/tradenames/:itemname')
+        .get(tradenameController.view);
+
+var priceHistoryController = require('./priceHistoryController');
+router.route('/pricehistory')
+    .get(priceHistoryController.index);
+
+router.route('/pricehistory/:item')
+    .get(priceHistoryController.view);
+    
+
 // Export API routes
 module.exports = router;
