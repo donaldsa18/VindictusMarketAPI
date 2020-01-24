@@ -30,5 +30,5 @@ exports.view = function (req, res) {
             message: 'success',
             data: items
         });
-    }).sort({"Price":1});
+    }).sort({"Price":1}).limit(10);
 };

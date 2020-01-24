@@ -19,8 +19,30 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // Connect to Mongoose and set connection variable
-const mongoHost = process.env.MONGO_URI || "localhost";
-mongoose.connect('mongodb://'+mongoHost+'/MarketQuery');
+let mongoHost = process.env.MONGO_HOSTNAME || "localhost";
+const mongoPort = process.env.MONGO_PORT || "27017";
+const mongoDB = process.env.MONGO_DB || "MarketQuery"
+
+let connStr = 'mongodb://'+mongoHost+':'+mongoPort+'/'+mongoDB;
+let mongoOptions = {
+    useNewUrlParser: true
+};
+if(process.env.MONGO_USERNAME) {
+	//mongoHost = process.env.MONGO_USERNAME+':'+process.env.MONGO_PASSWORD+'@'+mongoHost;
+    mongoOptions.user = process.env.MONGO_USERNAME;
+    mongoOptions.pass = process.env.MONGO_PASSWORD;
+    connStr += "?authsource=admin";
+}
+console.log(connStr);
+var connectWithRetry = function() {
+return mongoose.connect(connStr, mongoOptions, function(err) {
+    if (err) {
+    console.error('Failed to connect to mongo on startup - retrying in 5 sec', err);
+    setTimeout(connectWithRetry, 5000);
+    }
+});
+};
+connectWithRetry();
 
 var db = mongoose.connection;
 // Setup server port
