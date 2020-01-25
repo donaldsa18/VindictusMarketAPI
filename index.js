@@ -10,7 +10,7 @@ let enableWs = require('express-ws');
 enableWs(app);
 
 // Import routes
-let apiRoutes = require("./api-routes");
+let apiRoutes = require("./src/api-routes");
 
 // Configure bodyparser to handle post requests
 app.use(bodyParser.urlencoded({
@@ -28,7 +28,6 @@ let mongoOptions = {
     useNewUrlParser: true
 };
 if(process.env.MONGO_USERNAME) {
-	//mongoHost = process.env.MONGO_USERNAME+':'+process.env.MONGO_PASSWORD+'@'+mongoHost;
     mongoOptions.user = process.env.MONGO_USERNAME;
     mongoOptions.pass = process.env.MONGO_PASSWORD;
     connStr += "?authsource=admin";
@@ -54,7 +53,7 @@ app.get('/', (req, res) => res.send('Hello World with Express'));
 // Use Api routes in the App
 app.use('/api', apiRoutes)
 
-var locationController = require('./locationController');
+var locationController = require('./src/locationController');
 app.ws('/ws/locations',locationController.location);
 
 // Launch app to listen to specified port
